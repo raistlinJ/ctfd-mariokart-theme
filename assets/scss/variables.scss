@@ -1,0 +1,31 @@
+// Mario Kart Color Palette
+$mario-red: #E60012;
+$luigi-green: #43B02A;
+$bowser-orange: #F58220;
+$toad-blue: #009FD9;
+$peach-pink: #F3A0B2;
+$yoshi-green: #8CC152;
+$wario-yellow: #E6E600;
+$rainbow-road: linear-gradient(90deg, #ff0000, #ff7f00, #ffff00, #00ff00, #0000ff, #4b0082, #8f00ff);
+
+// Bootstrap Overrides
+$primary: $mario-red;
+$secondary: $luigi-green;
+$success: $yoshi-green;
+$info: $toad-blue;
+$warning: $wario-yellow;
+$danger: $bowser-orange;
+
+$theme-colors: (
+  "mario": $mario-red,
+  "luigi": $luigi-green,
+  "bowser": $bowser-orange,
+  "toad": $toad-blue,
+  "peach": $peach-pink,
+  "yoshi": $yoshi-green,
+  "rainbow": $rainbow-road
+);
+
+// Fonts
+$font-family-sans-serif: 'Inter', system-ui, -apple-system, sans-serif;
+$font-family-game: 'Outfit', sans-serif; // Using Outfit as a modern proxy for gaming font

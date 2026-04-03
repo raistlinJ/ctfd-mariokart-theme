@@ -1,0 +1,91 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container py-5 mt-5">
+    <div class="row mb-5 text-center">
+        <div class="col-md-12">
+            <h1 class="display-3 fw-bold drift-animation text-mario">Grand Prix Tracks</h1>
+            <p class="lead text-muted">Select a track to begin the race!</p>
+        </div>
+    </div>
+
+    <div x-data="ChallengeBoard" x-init="setup()">
+        <div class="row mb-4">
+            <div class="col-md-12 d-flex justify-content-center flex-wrap gap-2">
+                <template x-for="category in categories" :key="category">
+                    <button class="btn btn-outline-light rounded-pill px-4" 
+                            :class="{'active btn-mario': selectedCategory === category}"
+                            @click="selectedCategory = category"
+                            x-text="category"></button>
+                </template>
+            </div>
+        </div>
+
+        <div class="row">
+            <template x-for="challenge in filteredChallenges" :key="challenge.id">
+                <div class="col-md-4 mb-4">
+                    <div class="challenge-card h-100 p-0" @click="openChallenge(challenge)">
+                        <div class="challenge-header" :style="{ backgroundColor: getChallengeColor(challenge) }">
+                            <span x-text="challenge.category" class="small text-uppercase"></span>
+                        </div>
+                        <div class="challenge-body text-center py-4">
+                            <h4 x-text="challenge.name" class="mb-3"></h4>
+                            <div class="h5 mb-4">
+                                <span x-text="challenge.value"></span> CC
+                            </div>
+                            <div class="item-box mushroom" :class="getChallengeIcon(challenge)"></div>
+                        </div>
+                    </div>
+                </div>
+            </template>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+{{ Assets.js("assets/js/challenges.js") }}
+<script>
+    Alpine.data('ChallengeBoard', () => ({
+        challenges: [],
+        categories: [],
+        selectedCategory: 'All',
+        async setup() {
+            // Mocking API for demonstration, in real CTFd this fetches from API
+            this.challenges = [
+                { id: 1, name: 'Mario Circuit', category: 'Web', value: 100, difficulty: 'easy' },
+                { id: 2, name: 'Donut Plains', category: 'Crypto', value: 150, difficulty: 'medium' },
+                { id: 3, name: 'Rainbow Road', category: 'Pwn', value: 500, difficulty: 'hard' },
+                { id: 4, name: 'Bowsers Castle', category: 'Reversing', value: 300, difficulty: 'hard' },
+                { id: 5, name: 'Yoshi Valley', category: 'Forensics', value: 100, difficulty: 'easy' },
+                { id: 6, name: 'Koopa Beach', category: 'Misc', value: 50, difficulty: 'easy' }
+            ];
+            this.categories = ['All', ...new Set(this.challenges.map(c => c.category))];
+        },
+        get filteredChallenges() {
+            if (this.selectedCategory === 'All') return this.challenges;
+            return this.challenges.filter(c => c.category === this.selectedCategory);
+        },
+        getChallengeColor(c) {
+            const colors = { easy: '#43B02A', medium: '#009FD9', hard: '#E60012' };
+            return colors[c.difficulty] || '#BOWSER-ORANGE';
+        },
+        getChallengeIcon(c) {
+            if (c.difficulty === 'easy') return 'mushroom';
+            if (c.difficulty === 'medium') return 'shell';
+            return 'star';
+        },
+        openChallenge(c) {
+            alert(`Ready to race on ${c.name}? This would open the challenge modal in a real CTFd!`);
+        }
+    }));
+</script>
+{% endblock %}
+
+{% block stylesheets %}
+<style>
+    .text-mario { color: #E60012; }
+    .btn-mario { background-color: #E60012; color: white; border: none; }
+    .btn-mario:hover { background-color: #ff0000; }
+</style>
+{% endblock %}

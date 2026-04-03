@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="hero text-center pt-5">
+    <div class="container py-5">
+        <h1 class="display-1 fw-bold mb-4 drift-animation">Start Your Engines!</h1>
+        <p class="lead mb-4">Welcome to {{ Configs.ctf_name }}. Ready to take the checkered flag?</p>
+        <div class="d-flex justify-content-center gap-3">
+            <a href="{{ url_for('challenges.listing') }}" class="btn btn-mario btn-lg px-5 text-white">Join the Race</a>
+            <a href="{{ url_for('scoreboard.listing') }}" class="btn btn-outline-luigi btn-lg px-5">View Podium</a>
+        </div>
+    </div>
+</section>
+
+<section class="py-5 bg-darker">
+    <div class="container text-center">
+        <div class="row">
+            <div class="col-md-4 mb-4">
+                <div class="item-box mushroom mb-3"></div>
+                <h3 class="h4">Speed Boost</h3>
+                <p class="text-muted">Solve challenges fast to gain a lead on the competition!</p>
+            </div>
+            <div class="col-md-4 mb-4">
+                <div class="item-box shell mb-3"></div>
+                <h3 class="h4">Track Tactics</h3>
+                <p class="text-muted">Use shells (hints) wisely to overcome tricky obstacles.</p>
+            </div>
+            <div class="col-md-4 mb-4">
+                <div class="item-box star mb-3"></div>
+                <h3 class="h4">Invincibility</h3>
+                <p class="text-muted">Dominate the scoreboard and take the Star Cup!</p>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block stylesheets %}
+<style>
+    .bg-darker { background-color: #0b0e14; }
+    .btn-mario { background-color: #E60012; border: none; }
+    .btn-mario:hover { background-color: #ff0000; box-shadow: 0 0 15px #E60012; }
+    .btn-outline-luigi { border-color: #43B02A; color: #43B02A; }
+    .btn-outline-luigi:hover { background-color: #43B02A; color: white; box-shadow: 0 0 15px #43B02A; }
+</style>
+{% endblock %}

@@ -1,0 +1,87 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container py-5 mt-5">
+    <div class="row mb-5 text-center">
+        <div class="col-md-12">
+            <h1 class="display-3 fw-bold drift-animation text-luigi">The Podium</h1>
+            <p class="lead text-muted">Who is taking the Star Cup today?</p>
+        </div>
+    </div>
+
+    <!-- Podium Visualization -->
+    <div class="row align-items-end justify-content-center mb-5" style="min-height: 300px;">
+        <div class="col-3 text-center podium-item second">
+            <h5 class="fw-bold mb-2">Team Luigi</h5>
+            <div class="rank-box">2</div>
+            <p class="mt-2">1200 CC</p>
+        </div>
+        <div class="col-3 text-center podium-item first">
+            <div class="item-box star mb-3 drift-animation"></div>
+            <h4 class="fw-bold mb-2">Team Mario</h4>
+            <div class="rank-box">1</div>
+            <p class="mt-2">2500 CC</p>
+        </div>
+        <div class="col-3 text-center podium-item third">
+            <h5 class="fw-bold mb-2">Team Bowser</h5>
+            <div class="rank-box">3</div>
+            <p class="mt-2">800 CC</p>
+        </div>
+    </div>
+
+    <!-- Leaderboard Table -->
+    <div class="row">
+        <div class="col-md-10 offset-md-1">
+            <div class="card bg-darker border-rainbow p-4">
+                <table class="table table-dark table-hover mb-0">
+                    <thead>
+                        <tr>
+                            <th scope="col" class="text-mario">Rank</th>
+                            <th scope="col">Driver (Team)</th>
+                            <th scope="col">Engine Size (Score)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><i class="fas fa-medal text-warning"></i> 1</td>
+                            <td>Team Mario</td>
+                            <td>2500 CC</td>
+                        </tr>
+                        <tr>
+                            <td><i class="fas fa-medal text-light"></i> 2</td>
+                            <td>Team Luigi</td>
+                            <td>1200 CC</td>
+                        </tr>
+                        <tr>
+                            <td><i class="fas fa-medal text-danger"></i> 3</td>
+                            <td>Team Bowser</td>
+                            <td>800 CC</td>
+                        </tr>
+                        <tr>
+                            <td>4</td>
+                            <td>Toad Brigade</td>
+                            <td>500 CC</td>
+                        </tr>
+                        <tr>
+                            <td>5</td>
+                            <td>Peach's Guards</td>
+                            <td>300 CC</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block stylesheets %}
+<style>
+    .text-luigi { color: #43B02A; }
+    .border-rainbow { border: 2px solid transparent; border-image: linear-gradient(90deg, #ff0000, #ff7f00, #ffff00, #00ff00, #0000ff, #4b0082, #8f00ff); border-image-slice: 1; }
+    .card { background-color: #0b1018 !important; }
+</style>
+{% endblock %}
+{% block scripts %}
+{{ Assets.js("assets/js/scoreboard.js") }}
+{% endblock %}
