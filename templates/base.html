@@ -63,9 +63,9 @@
             'urlRoot': "{{ request.script_root }}",
             'csrfNonce': "{{ Session.nonce }}",
             'userMode': "{{ Configs.user_mode }}",
-            'userId': Number("{{ user.id if user else 0 }}"),
-            'start': Number("{{ Configs.start | default(0) }}"),
-            'end': Number("{{ Configs.end | default(0) }}"),
+            'userId': {{ Session.id | default(0) | tojson }},
+            'start': {{ Configs.start | default(0) | tojson }},
+            'end': {{ Configs.end | default(0) | tojson }},
             'themeSettings': null
         };
     </script>

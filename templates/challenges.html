@@ -47,7 +47,7 @@
 {{ Assets.js("assets/js/challenges.js") }}
 <script>
     document.addEventListener('alpine:init', () => {
-        Alpine.data('ChallengeBoard', () => ({
+        window.Alpine.data('ChallengeBoard', () => ({
             challenges: [],
             categories: [],
             selectedCategory: 'All',

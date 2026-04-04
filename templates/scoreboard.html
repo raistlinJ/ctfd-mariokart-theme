@@ -72,7 +72,7 @@
 {{ Assets.js("assets/js/scoreboard.js") }}
 <script>
     document.addEventListener('alpine:init', () => {
-        Alpine.data('Scoreboard', () => ({
+        window.Alpine.data('Scoreboard', () => ({
             standings: [],
             podium: [],
             async setup() {

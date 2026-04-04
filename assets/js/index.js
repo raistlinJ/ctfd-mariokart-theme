@@ -6,9 +6,6 @@ window.Alpine = Alpine;
 window.CTFd = CTFd;
 window.bootstrap = bootstrap;
 
-CTFd.init(window.init);
-Alpine.start();
-
 console.log('Mario Kart Theme Loaded!');
 
 // Alpine component for drifting effect
@@ -17,3 +14,6 @@ Alpine.data('kart', () => ({
   startDrift() { this.isDrifting = true; },
   stopDrift() { this.isDrifting = false; }
 }));
+
+CTFd.init(window.init || { csrfNonce: 'mock-if-failed', urlRoot: '' });
+Alpine.start();
