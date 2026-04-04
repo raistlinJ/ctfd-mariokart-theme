@@ -47,7 +47,36 @@
         </div>
     </nav>
 
-    <main id="main">
+    <section class="race-marquee" aria-hidden="true">
+        <div class="race-marquee__lane">
+            <span class="race-marquee__brand"><i class="fas fa-flag-checkered"></i> Mario Kart Grand Prix</span>
+            <span class="race-marquee__pill"><span class="item-box item-box--sm mushroom"></span> Mushroom Cup</span>
+            <span class="race-marquee__pill"><span class="item-box item-box--sm shell"></span> Flower Cup</span>
+            <span class="race-marquee__pill"><span class="item-box item-box--sm star"></span> Star Cup</span>
+            <span class="race-marquee__pill"><i class="fas fa-road"></i> Rainbow Road Rally</span>
+            <span class="race-marquee__pill"><i class="fas fa-trophy"></i> Special Cup Finals</span>
+            <span class="race-marquee__brand"><i class="fas fa-flag-checkered"></i> Mario Kart Grand Prix</span>
+            <span class="race-marquee__pill"><span class="item-box item-box--sm mushroom"></span> Mushroom Cup</span>
+            <span class="race-marquee__pill"><span class="item-box item-box--sm shell"></span> Flower Cup</span>
+            <span class="race-marquee__pill"><span class="item-box item-box--sm star"></span> Star Cup</span>
+            <span class="race-marquee__pill"><i class="fas fa-road"></i> Rainbow Road Rally</span>
+            <span class="race-marquee__pill"><i class="fas fa-trophy"></i> Special Cup Finals</span>
+        </div>
+    </section>
+
+    <main id="main" class="site-main">
+        <div class="page-decor" aria-hidden="true">
+            <div class="page-decor__cluster page-decor__cluster--left">
+                <span class="item-box mushroom float-item"></span>
+                <span class="item-box shell float-item"></span>
+                <span class="item-box star float-item"></span>
+            </div>
+            <div class="page-decor__cluster page-decor__cluster--right">
+                <span class="item-box star float-item"></span>
+                <span class="item-box mushroom float-item"></span>
+                <span class="item-box shell float-item"></span>
+            </div>
+        </div>
         {% block content %}
         {% endblock %}
     </main>

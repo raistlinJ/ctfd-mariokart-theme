@@ -2,72 +2,63 @@
 
 {% block content %}
 <div class="container py-5 mt-5">
-    <div class="row mb-5 text-center">
-        <div class="col-md-12">
-            <h1 class="display-3 fw-bold drift-animation text-luigi">The Podium</h1>
-            <p class="lead text-muted">Who is taking the Star Cup today?</p>
-        </div>
-    </div>
-
-    <div x-data="Scoreboard" x-init="setup()">
-        <!-- Podium Visualization -->
-        <div class="row align-items-end justify-content-center mb-5" style="min-height: 300px;">
-            <template x-for="pod in podium">
-                <div class="col-3 text-center podium-item" :class="pod.cssClass" x-show="pod.item">
-                    <template x-if="pod.rank === 1">
-                        <div class="item-box star mb-3 drift-animation"></div>
-                    </template>
-                    <h5 class="fw-bold mb-2" :class="{'h4': pod.rank===1}" x-text="pod.item ? pod.item.name : ''"></h5>
-                    <div class="rank-box" x-text="pod.rank"></div>
-                    <p class="mt-2 text-muted" x-text="pod.item ? `${pod.item.score} CC` : ''"></p>
-                </div>
-            </template>
+    <section class="race-panel scoreboard-shell">
+        <div class="d-flex flex-column flex-xl-row justify-content-between align-items-xl-end gap-4 mb-4">
+            <div>
+                <p class="section-kicker"><i class="fas fa-trophy"></i> Championship Standings</p>
+                <h1 class="display-3 fw-bold drift-animation text-luigi mb-3">The Podium</h1>
+                <p class="lead text-muted mb-0">Who is taking the Star Cup today? The podium now sits on brighter surfaces so scores, names, and medals are readable at a glance.</p>
+            </div>
+            <div class="race-chip"><span class="item-box item-box--sm star"></span> Star Cup Finals</div>
         </div>
 
-        <!-- Leaderboard Table -->
-        <div class="row">
-            <div class="col-md-10 offset-md-1">
-                <div class="card bg-darker border-rainbow p-4">
-                    <table class="table table-dark table-hover mb-0">
-                        <thead>
+        <div x-data="Scoreboard" x-init="setup()">
+            <div class="row align-items-end justify-content-center podium-stage" style="min-height: 320px;">
+                <template x-for="pod in podium">
+                    <div class="col-4 col-lg-3 text-center podium-item" :class="pod.cssClass" x-show="pod.item">
+                        <template x-if="pod.rank === 1">
+                            <div class="item-box star item-box--lg mb-3 drift-animation"></div>
+                        </template>
+                        <h5 class="fw-bold mb-2" :class="{'h4': pod.rank === 1}" x-text="pod.item ? pod.item.name : ''"></h5>
+                        <div class="rank-box" x-text="pod.rank"></div>
+                        <p class="mt-2" x-text="pod.item ? `${pod.item.score} CC` : ''"></p>
+                    </div>
+                </template>
+            </div>
+
+            <div class="scoreboard-table-wrap">
+                <table class="table scoreboard-table mb-0">
+                    <thead>
+                        <tr>
+                            <th scope="col" class="text-mario">Rank</th>
+                            <th scope="col">Driver (Team)</th>
+                            <th scope="col">Engine Size (Score)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <template x-for="entry in standings" :key="entry.account_id">
                             <tr>
-                                <th scope="col" class="text-mario">Rank</th>
-                                <th scope="col">Driver (Team)</th>
-                                <th scope="col">Engine Size (Score)</th>
+                                <td>
+                                    <template x-if="entry.pos === 1"><i class="fas fa-medal text-warning"></i></template>
+                                    <template x-if="entry.pos === 2"><i class="fas fa-medal text-secondary"></i></template>
+                                    <template x-if="entry.pos === 3"><i class="fas fa-medal" style="color:#cd7f32"></i></template>
+                                    <span x-text="entry.pos" :class="{'ms-1': entry.pos <= 3}"></span>
+                                </td>
+                                <td><a :href="entry.account_url" class="scoreboard-link" x-text="entry.name"></a></td>
+                                <td x-text="entry.score + ' CC'"></td>
                             </tr>
-                        </thead>
-                        <tbody>
-                            <template x-for="entry in standings" :key="entry.account_id">
-                                <tr>
-                                    <td>
-                                        <template x-if="entry.pos === 1"><i class="fas fa-medal text-warning"></i></template>
-                                        <template x-if="entry.pos === 2"><i class="fas fa-medal text-light"></i></template>
-                                        <template x-if="entry.pos === 3"><i class="fas fa-medal text-danger"></i></template>
-                                        <span x-text="entry.pos" :class="{'ms-1': entry.pos <= 3}"></span>
-                                    </td>
-                                    <td><a :href="entry.account_url" class="text-decoration-none text-light" x-text="entry.name"></a></td>
-                                    <td x-text="entry.score + ' CC'"></td>
-                                </tr>
-                            </template>
-                            <tr x-show="standings.length === 0">
-                                <td colspan="3" class="text-center py-4">No drivers have crossed the starting line yet!</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
+                        </template>
+                        <tr x-show="standings.length === 0">
+                            <td colspan="3" class="text-center py-4">No drivers have crossed the starting line yet!</td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
-    </div>
+    </section>
 </div>
 {% endblock %}
 
-{% block stylesheets %}
-<style>
-    .text-luigi { color: #43B02A; }
-    .border-rainbow { border: 2px solid transparent; border-image: linear-gradient(90deg, #ff0000, #ff7f00, #ffff00, #00ff00, #0000ff, #4b0082, #8f00ff); border-image-slice: 1; }
-    .card { background-color: #0b1018 !important; }
-</style>
-{% endblock %}
 {% block scripts %}
 {{ Assets.js("assets/js/scoreboard.js") }}
 <script>

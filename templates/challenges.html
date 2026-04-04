@@ -2,44 +2,95 @@
 
 {% block content %}
 <div class="container py-5 mt-5">
-    <div class="row mb-5 text-center">
-        <div class="col-md-12">
-            <h1 class="display-3 fw-bold drift-animation text-mario">Grand Prix Tracks</h1>
-            <p class="lead text-muted">Select a track to begin the race!</p>
+    <section class="race-panel">
+        <div class="d-flex flex-column flex-xl-row justify-content-between align-items-xl-end gap-4 mb-4">
+            <div>
+                <p class="section-kicker"><i class="fas fa-road"></i> Cup Select</p>
+                <h1 class="display-3 fw-bold drift-animation text-mario mb-3">Grand Prix Tracks</h1>
+                <p class="lead text-muted mb-0">Every challenge category now rolls up into its own cup. Pick a cup and race through its track list like a Grand Prix bracket.</p>
+            </div>
+            <div class="race-chip"><span class="item-box item-box--sm shell"></span> Category lanes become cups</div>
         </div>
-    </div>
 
-    <div x-data="ChallengeBoard" x-init="setup()">
-        <div class="row mb-4">
-            <div class="col-md-12 d-flex justify-content-center flex-wrap gap-2">
-                <template x-for="category in categories" :key="category">
-                    <button class="btn btn-outline-light rounded-pill px-4" 
-                            :class="{'active btn-mario': selectedCategory === category}"
-                            @click="selectedCategory = category"
-                            x-text="category"></button>
+        <div x-data="ChallengeBoard" x-init="setup()">
+            <div class="cup-selector-grid mb-4">
+                <button class="cup-selector" :class="{'is-active': selectedCategory === 'All'}" @click="selectedCategory = 'All'">
+                    <span class="cup-selector__eyebrow">All Cups</span>
+                    <span class="cup-selector__title">Grand Prix</span>
+                    <span class="cup-selector__meta">
+                        <span><i class="fas fa-layer-group"></i> All categories</span>
+                        <span x-text="`${challenges.length} tracks`"></span>
+                    </span>
+                </button>
+
+                <template x-for="category in categories" :key="category.category">
+                    <button
+                        class="cup-selector"
+                        :class="{'is-active': selectedCategory === category.category}"
+                        :style="{ '--cup-accent': category.accent }"
+                        @click="selectedCategory = category.category"
+                    >
+                        <span class="cup-selector__eyebrow" x-text="category.cup"></span>
+                        <span class="cup-selector__title" x-text="category.category"></span>
+                        <span class="cup-selector__meta">
+                            <span><span class="item-box item-box--sm" :class="category.item"></span></span>
+                            <span x-text="category.badge"></span>
+                        </span>
+                    </button>
                 </template>
             </div>
-        </div>
 
-        <div class="row">
-            <template x-for="challenge in filteredChallenges" :key="challenge.id">
-                <div class="col-md-4 mb-4">
-                    <div class="challenge-card h-100 p-0" @click="openChallenge(challenge)">
-                        <div class="challenge-header" :style="{ backgroundColor: getChallengeColor(challenge) }">
-                            <span x-text="challenge.category" class="small text-uppercase"></span>
-                        </div>
-                        <div class="challenge-body text-center py-4">
-                            <h4 x-text="challenge.name" class="mb-3"></h4>
-                            <div class="h5 mb-4">
-                                <span x-text="challenge.value"></span> CC
-                            </div>
-                            <div class="item-box mushroom" :class="getChallengeIcon(challenge)"></div>
-                        </div>
-                    </div>
+            <template x-if="visibleCupGroups.length === 0">
+                <div class="challenge-empty race-panel">
+                    No tracks are available for this cup yet.
                 </div>
             </template>
+
+            <template x-for="group in visibleCupGroups" :key="group.category">
+                <section class="race-panel cup-panel" :style="{ '--cup-accent': group.accent, '--cup-soft': group.soft }">
+                    <div class="cup-panel__header">
+                        <div class="cup-emblem">
+                            <span class="item-box item-box--lg" :class="group.item"></span>
+                        </div>
+                        <div>
+                            <p class="section-kicker mb-2" x-text="group.cup"></p>
+                            <h2 x-text="group.category + ' Circuit'"></h2>
+                            <p x-text="group.description"></p>
+                        </div>
+                        <div class="cup-stat">
+                            <span x-text="group.badge"></span><br>
+                            <small x-text="`${group.challenges.length} tracks`"></small>
+                        </div>
+                    </div>
+
+                    <div class="row g-4">
+                        <template x-for="challenge in group.challenges" :key="challenge.id">
+                            <div class="col-lg-6">
+                                <article class="track-card" :style="{ '--cup-accent': group.accent }" @click="openChallenge(challenge)">
+                                    <div class="track-card__lane"></div>
+                                    <div>
+                                        <div class="track-card__topline">
+                                            <span class="track-number">Track <span x-text="challenge.trackNumber"></span></span>
+                                            <span class="difficulty-chip" :class="`difficulty-chip--${challenge.difficulty}`" x-text="challenge.difficultyLabel"></span>
+                                        </div>
+                                        <h3 x-text="challenge.name"></h3>
+                                        <p class="track-copy" x-text="challenge.blurb"></p>
+                                        <div class="track-meta">
+                                            <span><i class="fas fa-gauge-high"></i> <span x-text="challenge.value"></span> CC</span>
+                                            <span><i class="fas fa-folder-open"></i> <span x-text="challenge.category"></span></span>
+                                        </div>
+                                    </div>
+                                    <div class="track-card__item">
+                                        <span class="item-box item-box--lg" :class="getChallengeIcon(challenge)"></span>
+                                    </div>
+                                </article>
+                            </div>
+                        </template>
+                    </div>
+                </section>
+            </template>
         </div>
-    </div>
+    </section>
 </div>
 {% endblock %}
 
@@ -47,62 +98,130 @@
 {{ Assets.js("assets/js/challenges.js") }}
 <script>
     document.addEventListener('alpine:init', () => {
+        const cupThemes = [
+            {
+                cup: 'Mushroom Cup',
+                accent: '#ff5b43',
+                soft: '#ffe1d8',
+                item: 'mushroom',
+                badge: 'Warm-up Circuit',
+                description: 'Quick opening laps with approachable corners and plenty of room to accelerate.'
+            },
+            {
+                cup: 'Flower Cup',
+                accent: '#ff7ca8',
+                soft: '#ffe4ef',
+                item: 'shell',
+                badge: 'Technical Bloom',
+                description: 'Tighter lines, sharper turns, and more shell-dodging between checkpoints.'
+            },
+            {
+                cup: 'Star Cup',
+                accent: '#1fa7ff',
+                soft: '#dff2ff',
+                item: 'star',
+                badge: 'Cosmic Sprint',
+                description: 'High-speed tracks for the teams climbing the leaderboard in the late race.'
+            },
+            {
+                cup: 'Special Cup',
+                accent: '#6f61ff',
+                soft: '#e3e0ff',
+                item: 'star',
+                badge: 'Final Lap',
+                description: 'Chaos-mode circuits with the toughest hazards and the biggest point swings.'
+            }
+        ];
+
         window.Alpine.data('ChallengeBoard', () => ({
             challenges: [],
             categories: [],
+            categoryLookup: {},
             selectedCategory: 'All',
             async setup() {
                 try {
                     const response = await window.CTFd.fetch('/api/v1/challenges');
                     const data = await response.json();
-                    
+
                     if (data && data.success && Array.isArray(data.data)) {
-                        this.challenges = data.data.map(c => {
-                            let difficulty = 'easy';
-                            if (c.value >= 300) difficulty = 'hard';
-                            else if (c.value >= 150) difficulty = 'medium';
-                            
+                        const uniqueCategories = [...new Set(data.data.map(challenge => challenge.category))].sort();
+                        this.categories = uniqueCategories.map((category, index) => {
+                            const theme = cupThemes[index % cupThemes.length];
                             return {
-                                id: c.id,
-                                name: c.name,
-                                category: c.category,
-                                value: c.value,
-                                difficulty: difficulty
+                                category,
+                                ...theme
                             };
                         });
-                        this.categories = ['All', ...new Set(this.challenges.map(c => c.category))];
+
+                        this.categoryLookup = this.categories.reduce((lookup, category) => {
+                            lookup[category.category] = category;
+                            return lookup;
+                        }, {});
+
+                        const trackCounts = {};
+
+                        this.challenges = data.data.map(challenge => {
+                            const cup = this.categoryLookup[challenge.category] || cupThemes[0];
+                            let difficulty = 'easy';
+                            let difficultyLabel = '50cc';
+
+                            if (challenge.value >= 500) {
+                                difficulty = 'expert';
+                                difficultyLabel = 'Mirror';
+                            } else if (challenge.value >= 300) {
+                                difficulty = 'hard';
+                                difficultyLabel = '150cc';
+                            } else if (challenge.value >= 150) {
+                                difficulty = 'medium';
+                                difficultyLabel = '100cc';
+                            }
+
+                            trackCounts[challenge.category] = (trackCounts[challenge.category] || 0) + 1;
+
+                            return {
+                                id: challenge.id,
+                                name: challenge.name,
+                                category: challenge.category,
+                                value: challenge.value,
+                                difficulty,
+                                difficultyLabel,
+                                trackNumber: trackCounts[challenge.category],
+                                blurb: this.getTrackBlurb(challenge, difficulty)
+                            };
+                        });
                     }
                 } catch (error) {
                     console.error("Failed to load challenges from CTFd API:", error);
-                    // Silently fail or use empty arrays, allowing Alpine template to render skeleton
                 }
             },
-            get filteredChallenges() {
-                if (this.selectedCategory === 'All') return this.challenges;
-                return this.challenges.filter(c => c.category === this.selectedCategory);
+            get visibleCupGroups() {
+                return this.categories
+                    .filter(category => this.selectedCategory === 'All' || this.selectedCategory === category.category)
+                    .map(category => ({
+                        ...category,
+                        challenges: this.challenges.filter(challenge => challenge.category === category.category)
+                    }))
+                    .filter(group => group.challenges.length > 0);
             },
-            getChallengeColor(c) {
-                const colors = { easy: '#43B02A', medium: '#009FD9', hard: '#E60012' };
-                return colors[c.difficulty] || '#F58220';
+            getTrackBlurb(challenge, difficulty) {
+                const blurbs = {
+                    easy: 'Warm up the tires and bank a clean early-race solve.',
+                    medium: 'A tighter corner with stronger defenses around the apex.',
+                    hard: 'A late-lap technical section where every move has to stick.',
+                    expert: 'Mirror mode chaos with the highest stakes on the board.'
+                };
+
+                return `${blurbs[difficulty]} ${challenge.category} holds ${challenge.value} CC on this circuit.`;
             },
-            getChallengeIcon(c) {
-                if (c.difficulty === 'easy') return 'mushroom';
-                if (c.difficulty === 'medium') return 'shell';
+            getChallengeIcon(challenge) {
+                if (challenge.difficulty === 'easy') return 'mushroom';
+                if (challenge.difficulty === 'medium') return 'shell';
                 return 'star';
             },
-            openChallenge(c) {
-                // In CTFd v3, challenges usually open a modal or use window.location
-                window.location.href = `/challenges#${c.name}-${c.id}`;
+            openChallenge(challenge) {
+                window.location.href = `/challenges#${challenge.name}-${challenge.id}`;
             }
         }));
     });
 </script>
-{% endblock %}
-
-{% block stylesheets %}
-<style>
-    .text-mario { color: #E60012; }
-    .btn-mario { background-color: #E60012; color: white; border: none; }
-    .btn-mario:hover { background-color: #ff0000; }
-</style>
 {% endblock %}

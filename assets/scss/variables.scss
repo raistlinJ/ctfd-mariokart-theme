@@ -1,12 +1,19 @@
 // Mario Kart Color Palette
-$mario-red: #E60012;
-$luigi-green: #43B02A;
-$bowser-orange: #F58220;
-$toad-blue: #009FD9;
-$peach-pink: #F3A0B2;
-$yoshi-green: #8CC152;
-$wario-yellow: #E6E600;
-$rainbow-road: linear-gradient(90deg, #ff0000, #ff7f00, #ffff00, #00ff00, #0000ff, #4b0082, #8f00ff);
+$mario-red: #e60012;
+$luigi-green: #43b02a;
+$bowser-orange: #f58220;
+$toad-blue: #009fd9;
+$peach-pink: #f3a0b2;
+$yoshi-green: #8cc152;
+$wario-yellow: #ffe15a;
+$rainbow-road: linear-gradient(90deg, #ff4d4d, #ff9a3c, #ffe26b, #48cf72, #35d7ff, #6c6bff, #ff78cf);
+
+$midnight-blue: #0d214d;
+$sky-blue: #17558a;
+$turquoise-track: #0f7694;
+$paper-cream: #fffaf3;
+$ink-navy: #14314a;
+$ink-soft: #566d83;
 
 // Bootstrap Overrides
 $primary: $mario-red;
@@ -15,6 +22,10 @@ $success: $yoshi-green;
 $info: $toad-blue;
 $warning: $wario-yellow;
 $danger: $bowser-orange;
+$body-color: $paper-cream;
+$body-bg: $midnight-blue;
+$border-radius: 1rem;
+$border-radius-lg: 1.4rem;
 
 $theme-colors: (
   "mario": $mario-red,
@@ -22,9 +33,10 @@ $theme-colors: (
   "bowser": $bowser-orange,
   "toad": $toad-blue,
   "peach": $peach-pink,
-  "yoshi": $yoshi-green
+  "yoshi": $yoshi-green,
+  "track": $turquoise-track
 );
 
 // Fonts
-$font-family-sans-serif: 'Inter', system-ui, -apple-system, sans-serif;
-$font-family-game: 'Outfit', sans-serif; // Using Outfit as a modern proxy for gaming font
+$font-family-sans-serif: "Avenir Next", "Trebuchet MS", sans-serif;
+$font-family-game: "Arial Black", "Avenir Next Condensed", "Trebuchet MS", sans-serif;
