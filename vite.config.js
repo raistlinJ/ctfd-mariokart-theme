@@ -5,9 +5,11 @@ import copy from 'rollup-plugin-copy';
 export default defineConfig({
   build: {
     outDir: 'static',
+    manifest: true,
     rollupOptions: {
       input: {
         index: resolve(__dirname, 'assets/js/index.js'),
+        main: resolve(__dirname, 'assets/scss/main.scss'),
         challenges: resolve(__dirname, 'assets/js/challenges.js'),
         scoreboard: resolve(__dirname, 'assets/js/scoreboard.js'),
         settings: resolve(__dirname, 'assets/js/settings.js'),

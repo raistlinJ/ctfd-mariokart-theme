@@ -1,0 +1,60 @@
+{
+  "assets/img/bg.png": {
+    "file": "bg.png",
+    "src": "assets/img/bg.png"
+  },
+  "assets/img/items.png": {
+    "file": "items.png",
+    "src": "assets/img/items.png"
+  },
+  "assets/js/challenges.js": {
+    "file": "challenges.js",
+    "isEntry": true,
+    "src": "assets/js/challenges.js"
+  },
+  "assets/js/index.js": {
+    "file": "index.js",
+    "isEntry": true,
+    "src": "assets/js/index.js"
+  },
+  "assets/js/notifications.js": {
+    "file": "notifications.js",
+    "isEntry": true,
+    "src": "assets/js/notifications.js"
+  },
+  "assets/js/page.js": {
+    "file": "page.js",
+    "isEntry": true,
+    "src": "assets/js/page.js"
+  },
+  "assets/js/scoreboard.js": {
+    "file": "scoreboard.js",
+    "isEntry": true,
+    "src": "assets/js/scoreboard.js"
+  },
+  "assets/js/settings.js": {
+    "file": "settings.js",
+    "isEntry": true,
+    "src": "assets/js/settings.js"
+  },
+  "assets/js/setup.js": {
+    "file": "setup.js",
+    "isEntry": true,
+    "src": "assets/js/setup.js"
+  },
+  "assets/js/teams.js": {
+    "file": "teams.js",
+    "isEntry": true,
+    "src": "assets/js/teams.js"
+  },
+  "assets/js/users.js": {
+    "file": "users.js",
+    "isEntry": true,
+    "src": "assets/js/users.js"
+  },
+  "assets/scss/main.scss": {
+    "file": "main.css",
+    "isEntry": true,
+    "src": "assets/scss/main.scss"
+  }
+}
