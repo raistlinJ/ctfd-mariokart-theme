@@ -5,7 +5,8 @@
   "type": "module",
   "scripts": {
     "dev": "vite build --watch --mode=development",
-    "build": "vite build"
+    "build": "vite build && npm run package-theme",
+    "package-theme": "rm -rf mariokart-theme && mkdir -p mariokart-theme && cp theme.json mariokart-theme/theme.json && cp -R assets mariokart-theme/assets && cp -R static mariokart-theme/static && cp -R templates mariokart-theme/templates && rm -f mariokart-theme.zip && zip -qr mariokart-theme.zip mariokart-theme"
   },
   "dependencies": {
     "@ctfdio/ctfd-js": "^0.0.1",

@@ -1,0 +1,138 @@
+@import "bootstrap/scss/bootstrap";
+@import "variables";
+
+// Global Styles
+body {
+  background-color: #0d1117;
+  color: #c9d1d9;
+  font-family: $font-family-sans-serif;
+  overflow-x: hidden;
+}
+
+h1, h2, h3, h4, .navbar-brand {
+  font-family: $font-family-game;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+// Navbar
+.navbar {
+  background: rgba(13, 17, 23, 0.95) !important;
+  border-bottom: 3px solid transparent;
+  border-image: $rainbow-road;
+  border-image-slice: 1;
+  backdrop-filter: blur(10px);
+
+  .navbar-brand {
+    color: $mario-red !important;
+    font-weight: 800;
+  }
+}
+
+// Hero Section
+.hero {
+  position: relative;
+  height: 60vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-image: url('../img/bg.png');
+  background-size: cover;
+  background-position: center;
+  color: white;
+  text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.5);
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.3);
+  }
+
+  .container {
+    position: relative;
+    z-index: 1;
+  }
+}
+
+// Challenges
+.challenge-card {
+  background: rgba(22, 27, 34, 0.8);
+  border: 2px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  transition: all 0.3s ease;
+  overflow: hidden;
+
+  &:hover {
+    transform: translateY(-10px) rotate(1deg);
+    box-shadow: 0 10px 30px rgba(230, 0, 18, 0.3);
+    border-color: $mario-red;
+  }
+
+  .challenge-header {
+    background: $mario-red;
+    padding: 10px;
+    font-weight: bold;
+    text-align: center;
+  }
+
+  .challenge-body {
+    padding: 20px;
+  }
+}
+
+// Scoreboard Podium
+.podium-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  height: 200px;
+  margin: 0 10px;
+
+  &.first {
+    .rank-box { height: 120px; background: gold; }
+  }
+  &.second {
+    .rank-box { height: 90px; background: silver; }
+  }
+  &.third {
+    .rank-box { height: 60px; background: #cd7f32; }
+  }
+
+  .rank-box {
+    width: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    font-weight: 800;
+    border-radius: 10px 10px 0 0;
+  }
+}
+
+// Animations
+@keyframes drift {
+  0% { transform: rotate(0deg); }
+  50% { transform: rotate(3deg) scale(1.05); }
+  100% { transform: rotate(0deg); }
+}
+
+.drift-animation {
+  animation: drift 2s infinite ease-in-out;
+}
+
+.item-box {
+  width: 50px;
+  height: 50px;
+  background-image: url('../img/items.png');
+  background-size: 150px; // 3 icons
+  display: inline-block;
+
+  &.mushroom { background-position: 0 0; }
+  &.shell { background-position: -50px 0; }
+  &.star { background-position: -100px 0; }
+}

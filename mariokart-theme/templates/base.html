@@ -27,10 +27,10 @@
                     </li>
                 </ul>
                 <ul class="navbar-nav ms-auto">
-                    {% if Authed %}
+                    {% if authed() %}
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                Hi, {{ User.name }}
+                                Hi, {{ user.name }}
                             </a>
                             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                                 <li><a class="dropdown-item" href="{{ url_for('users.private') }}">My Driver Profile</a></li>
@@ -52,14 +52,23 @@
         {% endblock %}
     </main>
 
-    {% include "components/loader.html" %}
-
     <footer class="footer mt-auto py-3 bg-dark text-center text-muted">
         <div class="container">
             <p>&copy; {{ Configs.ctf_name }} - Powered by CTFd & Mario Kart</p>
         </div>
     </footer>
 
+    <script>
+        window.init = {
+            'urlRoot': "{{ request.script_root }}",
+            'csrfNonce': "{{ Session.nonce }}",
+            'userMode': "{{ Configs.user_mode }}",
+            'userId': {{ Session.id | default(0) | tojson }},
+            'start': {{ Configs.start | default(0) | tojson }},
+            'end': {{ Configs.end | default(0) | tojson }},
+            'themeSettings': null
+        };
+    </script>
     {{ Assets.js("assets/js/index.js") }}
     {% block scripts %}{% endblock %}
 </body>

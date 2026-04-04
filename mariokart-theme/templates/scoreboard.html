@@ -9,66 +9,52 @@
         </div>
     </div>
 
-    <!-- Podium Visualization -->
-    <div class="row align-items-end justify-content-center mb-5" style="min-height: 300px;">
-        <div class="col-3 text-center podium-item second">
-            <h5 class="fw-bold mb-2">Team Luigi</h5>
-            <div class="rank-box">2</div>
-            <p class="mt-2">1200 CC</p>
+    <div x-data="Scoreboard" x-init="setup()">
+        <!-- Podium Visualization -->
+        <div class="row align-items-end justify-content-center mb-5" style="min-height: 300px;">
+            <template x-for="pod in podium">
+                <div class="col-3 text-center podium-item" :class="pod.cssClass" x-show="pod.item">
+                    <template x-if="pod.rank === 1">
+                        <div class="item-box star mb-3 drift-animation"></div>
+                    </template>
+                    <h5 class="fw-bold mb-2" :class="{'h4': pod.rank===1}" x-text="pod.item ? pod.item.name : ''"></h5>
+                    <div class="rank-box" x-text="pod.rank"></div>
+                    <p class="mt-2 text-muted" x-text="pod.item ? `${pod.item.score} CC` : ''"></p>
+                </div>
+            </template>
         </div>
-        <div class="col-3 text-center podium-item first">
-            <div class="item-box star mb-3 drift-animation"></div>
-            <h4 class="fw-bold mb-2">Team Mario</h4>
-            <div class="rank-box">1</div>
-            <p class="mt-2">2500 CC</p>
-        </div>
-        <div class="col-3 text-center podium-item third">
-            <h5 class="fw-bold mb-2">Team Bowser</h5>
-            <div class="rank-box">3</div>
-            <p class="mt-2">800 CC</p>
-        </div>
-    </div>
 
-    <!-- Leaderboard Table -->
-    <div class="row">
-        <div class="col-md-10 offset-md-1">
-            <div class="card bg-darker border-rainbow p-4">
-                <table class="table table-dark table-hover mb-0">
-                    <thead>
-                        <tr>
-                            <th scope="col" class="text-mario">Rank</th>
-                            <th scope="col">Driver (Team)</th>
-                            <th scope="col">Engine Size (Score)</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td><i class="fas fa-medal text-warning"></i> 1</td>
-                            <td>Team Mario</td>
-                            <td>2500 CC</td>
-                        </tr>
-                        <tr>
-                            <td><i class="fas fa-medal text-light"></i> 2</td>
-                            <td>Team Luigi</td>
-                            <td>1200 CC</td>
-                        </tr>
-                        <tr>
-                            <td><i class="fas fa-medal text-danger"></i> 3</td>
-                            <td>Team Bowser</td>
-                            <td>800 CC</td>
-                        </tr>
-                        <tr>
-                            <td>4</td>
-                            <td>Toad Brigade</td>
-                            <td>500 CC</td>
-                        </tr>
-                        <tr>
-                            <td>5</td>
-                            <td>Peach's Guards</td>
-                            <td>300 CC</td>
-                        </tr>
-                    </tbody>
-                </table>
+        <!-- Leaderboard Table -->
+        <div class="row">
+            <div class="col-md-10 offset-md-1">
+                <div class="card bg-darker border-rainbow p-4">
+                    <table class="table table-dark table-hover mb-0">
+                        <thead>
+                            <tr>
+                                <th scope="col" class="text-mario">Rank</th>
+                                <th scope="col">Driver (Team)</th>
+                                <th scope="col">Engine Size (Score)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <template x-for="entry in standings" :key="entry.account_id">
+                                <tr>
+                                    <td>
+                                        <template x-if="entry.pos === 1"><i class="fas fa-medal text-warning"></i></template>
+                                        <template x-if="entry.pos === 2"><i class="fas fa-medal text-light"></i></template>
+                                        <template x-if="entry.pos === 3"><i class="fas fa-medal text-danger"></i></template>
+                                        <span x-text="entry.pos" :class="{'ms-1': entry.pos <= 3}"></span>
+                                    </td>
+                                    <td><a :href="entry.account_url" class="text-decoration-none text-light" x-text="entry.name"></a></td>
+                                    <td x-text="entry.score + ' CC'"></td>
+                                </tr>
+                            </template>
+                            <tr x-show="standings.length === 0">
+                                <td colspan="3" class="text-center py-4">No drivers have crossed the starting line yet!</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
@@ -84,4 +70,31 @@
 {% endblock %}
 {% block scripts %}
 {{ Assets.js("assets/js/scoreboard.js") }}
+<script>
+    document.addEventListener('alpine:init', () => {
+        window.Alpine.data('Scoreboard', () => ({
+            standings: [],
+            podium: [],
+            async setup() {
+                try {
+                    const response = await window.CTFd.fetch('/api/v1/scoreboard');
+                    const data = await response.json();
+                    this.standings = data.data;
+                    
+                    let first = this.standings[0] || null;
+                    let second = this.standings[1] || null;
+                    let third = this.standings[2] || null;
+                    
+                    this.podium = [
+                        { item: second, cssClass: 'second', rank: 2 },
+                        { item: first, cssClass: 'first', rank: 1 },
+                        { item: third, cssClass: 'third', rank: 3 }
+                    ];
+                } catch (e) {
+                    console.error("Failed to load scoreboard", e);
+                }
+            }
+        }));
+    });
+</script>
 {% endblock %}
