@@ -6,6 +6,7 @@ window.Alpine = Alpine;
 window.CTFd = CTFd;
 window.bootstrap = bootstrap;
 
+CTFd.init(window.init);
 Alpine.start();
 
 console.log('Mario Kart Theme Loaded!');

@@ -52,23 +52,30 @@
             categories: [],
             selectedCategory: 'All',
             async setup() {
-                const response = await window.CTFd.fetch('/api/v1/challenges');
-                const data = await response.json();
-                this.challenges = data.data.map(c => {
-                    // Assign random difficulty style based on points for Mario theme integration
-                    let difficulty = 'easy';
-                    if (c.value >= 300) difficulty = 'hard';
-                    else if (c.value >= 150) difficulty = 'medium';
+                try {
+                    const response = await window.CTFd.fetch('/api/v1/challenges');
+                    const data = await response.json();
                     
-                    return {
-                        id: c.id,
-                        name: c.name,
-                        category: c.category,
-                        value: c.value,
-                        difficulty: difficulty
-                    };
-                });
-                this.categories = ['All', ...new Set(this.challenges.map(c => c.category))];
+                    if (data && data.success && Array.isArray(data.data)) {
+                        this.challenges = data.data.map(c => {
+                            let difficulty = 'easy';
+                            if (c.value >= 300) difficulty = 'hard';
+                            else if (c.value >= 150) difficulty = 'medium';
+                            
+                            return {
+                                id: c.id,
+                                name: c.name,
+                                category: c.category,
+                                value: c.value,
+                                difficulty: difficulty
+                            };
+                        });
+                        this.categories = ['All', ...new Set(this.challenges.map(c => c.category))];
+                    }
+                } catch (error) {
+                    console.error("Failed to load challenges from CTFd API:", error);
+                    // Silently fail or use empty arrays, allowing Alpine template to render skeleton
+                }
             },
             get filteredChallenges() {
                 if (this.selectedCategory === 'All') return this.challenges;

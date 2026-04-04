@@ -58,6 +58,17 @@
         </div>
     </footer>
 
+    <script>
+        window.init = {
+            'urlRoot': "{{ request.script_root }}",
+            'csrfNonce': "{{ Session.nonce }}",
+            'userMode': "{{ Configs.user_mode }}",
+            'userId': Number("{{ user.id if user else 0 }}"),
+            'start': Number("{{ Configs.start | default(0) }}"),
+            'end': Number("{{ Configs.end | default(0) }}"),
+            'themeSettings': null
+        };
+    </script>
     {{ Assets.js("assets/js/index.js") }}
     {% block scripts %}{% endblock %}
 </body>
