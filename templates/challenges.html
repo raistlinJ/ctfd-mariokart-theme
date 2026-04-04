@@ -46,39 +46,49 @@
 {% block scripts %}
 {{ Assets.js("assets/js/challenges.js") }}
 <script>
-    Alpine.data('ChallengeBoard', () => ({
-        challenges: [],
-        categories: [],
-        selectedCategory: 'All',
-        async setup() {
-            // Mocking API for demonstration, in real CTFd this fetches from API
-            this.challenges = [
-                { id: 1, name: 'Mario Circuit', category: 'Web', value: 100, difficulty: 'easy' },
-                { id: 2, name: 'Donut Plains', category: 'Crypto', value: 150, difficulty: 'medium' },
-                { id: 3, name: 'Rainbow Road', category: 'Pwn', value: 500, difficulty: 'hard' },
-                { id: 4, name: 'Bowsers Castle', category: 'Reversing', value: 300, difficulty: 'hard' },
-                { id: 5, name: 'Yoshi Valley', category: 'Forensics', value: 100, difficulty: 'easy' },
-                { id: 6, name: 'Koopa Beach', category: 'Misc', value: 50, difficulty: 'easy' }
-            ];
-            this.categories = ['All', ...new Set(this.challenges.map(c => c.category))];
-        },
-        get filteredChallenges() {
-            if (this.selectedCategory === 'All') return this.challenges;
-            return this.challenges.filter(c => c.category === this.selectedCategory);
-        },
-        getChallengeColor(c) {
-            const colors = { easy: '#43B02A', medium: '#009FD9', hard: '#E60012' };
-            return colors[c.difficulty] || '#BOWSER-ORANGE';
-        },
-        getChallengeIcon(c) {
-            if (c.difficulty === 'easy') return 'mushroom';
-            if (c.difficulty === 'medium') return 'shell';
-            return 'star';
-        },
-        openChallenge(c) {
-            alert(`Ready to race on ${c.name}? This would open the challenge modal in a real CTFd!`);
-        }
-    }));
+    document.addEventListener('alpine:init', () => {
+        Alpine.data('ChallengeBoard', () => ({
+            challenges: [],
+            categories: [],
+            selectedCategory: 'All',
+            async setup() {
+                const response = await window.CTFd.fetch('/api/v1/challenges');
+                const data = await response.json();
+                this.challenges = data.data.map(c => {
+                    // Assign random difficulty style based on points for Mario theme integration
+                    let difficulty = 'easy';
+                    if (c.value >= 300) difficulty = 'hard';
+                    else if (c.value >= 150) difficulty = 'medium';
+                    
+                    return {
+                        id: c.id,
+                        name: c.name,
+                        category: c.category,
+                        value: c.value,
+                        difficulty: difficulty
+                    };
+                });
+                this.categories = ['All', ...new Set(this.challenges.map(c => c.category))];
+            },
+            get filteredChallenges() {
+                if (this.selectedCategory === 'All') return this.challenges;
+                return this.challenges.filter(c => c.category === this.selectedCategory);
+            },
+            getChallengeColor(c) {
+                const colors = { easy: '#43B02A', medium: '#009FD9', hard: '#E60012' };
+                return colors[c.difficulty] || '#F58220';
+            },
+            getChallengeIcon(c) {
+                if (c.difficulty === 'easy') return 'mushroom';
+                if (c.difficulty === 'medium') return 'shell';
+                return 'star';
+            },
+            openChallenge(c) {
+                // In CTFd v3, challenges usually open a modal or use window.location
+                window.location.href = `/challenges#${c.name}-${c.id}`;
+            }
+        }));
+    });
 </script>
 {% endblock %}
 
