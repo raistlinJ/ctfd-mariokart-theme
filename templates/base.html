@@ -64,17 +64,48 @@
         </div>
     </section>
 
+    <section class="theme-showcase" aria-hidden="true">
+        <div class="container">
+            <div class="theme-showcase__rail">
+                <article class="theme-showcase__poster">
+                    <div class="theme-showcase__poster-copy">
+                        <span class="theme-showcase__eyebrow">Rainbow Road Spotlight</span>
+                        <strong>Mario Kart Grand Prix</strong>
+                        <small>Rainbow Road poster art and classic power-up icons now sit directly in the page chrome instead of hiding as subtle background texture.</small>
+                    </div>
+                </article>
+                <div class="theme-showcase__items">
+                    <article class="theme-showcase__item">
+                        <span class="item-box item-box--xl mushroom"></span>
+                        <strong>Mushroom Boost</strong>
+                        <small>Launch into the opening lap.</small>
+                    </article>
+                    <article class="theme-showcase__item">
+                        <span class="item-box item-box--xl shell"></span>
+                        <strong>Green Shell</strong>
+                        <small>Technical corners and sharper lines.</small>
+                    </article>
+                    <article class="theme-showcase__item">
+                        <span class="item-box item-box--xl star"></span>
+                        <strong>Star Power</strong>
+                        <small>Final sprint energy for the big solves.</small>
+                    </article>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <main id="main" class="site-main">
         <div class="page-decor" aria-hidden="true">
             <div class="page-decor__cluster page-decor__cluster--left">
-                <span class="item-box mushroom float-item"></span>
-                <span class="item-box shell float-item"></span>
-                <span class="item-box star float-item"></span>
+                <span class="item-box item-box--lg mushroom float-item"></span>
+                <span class="item-box item-box--lg shell float-item"></span>
+                <span class="item-box item-box--lg star float-item"></span>
             </div>
             <div class="page-decor__cluster page-decor__cluster--right">
-                <span class="item-box star float-item"></span>
-                <span class="item-box mushroom float-item"></span>
-                <span class="item-box shell float-item"></span>
+                <span class="item-box item-box--lg star float-item"></span>
+                <span class="item-box item-box--lg mushroom float-item"></span>
+                <span class="item-box item-box--lg shell float-item"></span>
             </div>
         </div>
         {% block content %}
