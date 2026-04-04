@@ -1,4 +1,7 @@
 {
+  "_dayjs.min.js": {
+    "file": "dayjs.min.js"
+  },
   "assets/img/bg.png": {
     "file": "bg.png",
     "src": "assets/img/bg.png"
@@ -9,11 +12,17 @@
   },
   "assets/js/challenges.js": {
     "file": "challenges.js",
+    "imports": [
+      "_dayjs.min.js"
+    ],
     "isEntry": true,
     "src": "assets/js/challenges.js"
   },
   "assets/js/index.js": {
     "file": "index.js",
+    "imports": [
+      "_dayjs.min.js"
+    ],
     "isEntry": true,
     "src": "assets/js/index.js"
   },

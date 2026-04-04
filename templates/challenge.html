@@ -1,0 +1,154 @@
+<div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content challenge-modal-card">
+        <div class="modal-body p-4 p-sm-5">
+            <button type="button" class="btn-close float-end" data-bs-dismiss="modal" aria-label="Close"></button>
+
+            <ul class="nav nav-tabs challenge-modal-tabs mb-4" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#challenge" type="button" role="tab">
+                        Challenge
+                    </button>
+                </li>
+                {% block solves %}
+                    {% if solves != None %}
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link challenge-solves" data-bs-toggle="tab" data-bs-target="#solves" type="button" role="tab">
+                            {{ solves }} Solve{{ solves|pluralize }}
+                        </button>
+                    </li>
+                    {% endif %}
+                {% endblock %}
+            </ul>
+
+            <div class="tab-content">
+                <div class="tab-pane fade show active" id="challenge" role="tabpanel">
+                    <h2 class="challenge-name text-center pt-3">{{ challenge.name }}</h2>
+                    <h3 class="challenge-value text-center mb-3">{{ challenge.value }} CC</h3>
+
+                    {% if challenge.byline %}
+                    <small class="challenge-attribution text-center text-muted d-block mb-3">{{ challenge.byline }}</small>
+                    {% endif %}
+
+                    {% if tags %}
+                    <div class="challenge-tags text-center pt-2 pb-3">
+                        {% block tags %}
+                            {% for tag in tags %}
+                                <span class="badge bg-info challenge-tag">{{ tag }}</span>
+                            {% endfor %}
+                        {% endblock %}
+                    </div>
+                    {% endif %}
+
+                    <div class="challenge-desc mb-3">{% block description %}{{ challenge.html }}{% endblock %}</div>
+
+                    {% if challenge.connection_info %}
+                    <div class="challenge-connection-info mb-3">
+                        {% block connection_info %}
+                            {% set conn = challenge.connection_info %}
+                            {% if not conn %}
+                            {% elif conn.startswith("http") %}
+                                {{ conn | urlize(target="_blank") }}
+                            {% else %}
+                                <code>{{ conn }}</code>
+                            {% endif %}
+                        {% endblock %}
+                    </div>
+                    {% endif %}
+
+                    {% if hints %}
+                    <div class="challenge-hints hint-row row mb-3">
+                        {% for hint in hints | sort(attribute="cost") %}
+                        <div class="col-12 hint-button-wrapper text-center mb-3">
+                            <a class="btn btn-hint w-100 load-hint" href="javascript:;" data-hint-id="{{ hint.id }}">
+                                {% if hint.content %}
+                                    <small>View Hint</small>
+                                {% else %}
+                                    {% if hint.cost %}
+                                        <small>Unlock Hint for {{ hint.cost }} point{{ hint.cost|pluralize }}</small>
+                                    {% else %}
+                                        <small>View Hint</small>
+                                    {% endif %}
+                                {% endif %}
+                            </a>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+
+                    {% if files %}
+                    <div class="row challenge-files text-center pb-3">
+                        {% for file in files %}
+                        <div class="col-md-4 col-sm-6 file-button-wrapper d-block mb-3">
+                            {% set segments = file.split('/') %}
+                            {% set token = file.split('?') | last %}
+                            {% if token %}
+                                {% set filename = segments | last | replace("?" + token, "") %}
+                            {% else %}
+                                {% set filename = segments | last %}
+                            {% endif %}
+                            <a class="btn btn-file d-inline-block px-2 w-100 text-truncate" href="{{ file }}" title="{{ filename }}">
+                                <i class="fas fa-download"></i>
+                                <small>{{ filename }}</small>
+                            </a>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+
+                    {% if max_attempts > 0 %}
+                    <div class="row text-center mb-3">
+                        <div class="col-12">
+                            <p>{{ attempts }}/{{ max_attempts }} attempt{{ max_attempts|pluralize }}</p>
+                        </div>
+                    </div>
+                    {% endif %}
+
+                    <div class="row g-3 submit-row">
+                        <div class="col-12 col-sm-8">
+                            {% block input %}
+                                <input id="challenge-id" class="challenge-id" type="hidden" value="{{ challenge.id }}">
+                                <input id="challenge-input" class="challenge-input form-control" type="text" name="answer" placeholder="Flag">
+                            {% endblock %}
+                        </div>
+                        <div class="col-12 col-sm-4 key-submit">
+                            {% block submit %}
+                                <button id="challenge-submit" class="challenge-submit btn btn-outline-secondary w-100 h-100" type="submit">
+                                    Submit
+                                </button>
+                            {% endblock %}
+                        </div>
+                    </div>
+
+                    <div class="row notification-row mt-3">
+                        <div class="col-12">
+                            <div id="result-notification" class="alert text-center w-100 d-none" role="alert">
+                                <strong id="result-message"></strong>
+                                <div id="result-actions"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                {% block solves_panel %}
+                    {% if solves != None %}
+                    <div class="tab-pane fade" id="solves" role="tabpanel">
+                        <div class="row">
+                            <div class="col-12">
+                                <table class="table table-striped text-center align-middle">
+                                    <thead>
+                                        <tr>
+                                            <th>Name</th>
+                                            <th>Date</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="challenge-solves-names"></tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    {% endif %}
+                {% endblock %}
+            </div>
+        </div>
+    </div>
+</div>

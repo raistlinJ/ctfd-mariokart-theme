@@ -13,6 +13,8 @@
         </div>
 
         <div x-data="ChallengeBoard" x-init="setup()">
+            <div id="challenge-window" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true"></div>
+
             <div class="cup-selector-grid mb-4">
                 <button class="cup-selector" :class="{'is-active': selectedCategory === 'All'}" @click="selectedCategory = 'All'">
                     <span class="cup-selector__eyebrow">All Cups</span>
@@ -66,7 +68,15 @@
                     <div class="row g-4">
                         <template x-for="challenge in group.challenges" :key="challenge.id">
                             <div class="col-lg-6">
-                                <article class="track-card" :style="{ '--cup-accent': group.accent }" @click="openChallenge(challenge)">
+                                <article
+                                    class="track-card"
+                                    :style="{ '--cup-accent': group.accent }"
+                                    role="button"
+                                    tabindex="0"
+                                    @click="openChallenge(challenge)"
+                                    @keyup.enter.prevent="openChallenge(challenge)"
+                                    @keyup.space.prevent="openChallenge(challenge)"
+                                >
                                     <div class="track-card__lane"></div>
                                     <div>
                                         <div class="track-card__topline">
@@ -218,7 +228,12 @@
                 if (challenge.difficulty === 'medium') return 'shell';
                 return 'star';
             },
-            openChallenge(challenge) {
+            async openChallenge(challenge) {
+                if (window.MarioKartChallenges && typeof window.MarioKartChallenges.loadChallenge === 'function') {
+                    await window.MarioKartChallenges.loadChallenge(challenge.id);
+                    return;
+                }
+
                 window.location.href = `/challenges#${challenge.name}-${challenge.id}`;
             }
         }));
