@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="shortcut icon" href="{{ Configs.ctf_small_icon or url_for('static', filename='img/favicon.ico') }}" type="image/x-icon">
-    {{ Assets.css("assets/scss/main.scss") }}
+    <link rel="stylesheet" href="{{ url_for('views.themes', theme='mariokart', path='static/main.css') }}?v={{ range(1, 1000000000) | random }}">
     {% block stylesheets %}{% endblock %}
 </head>
 <body x-data="kart">
@@ -69,7 +69,7 @@
             'themeSettings': null
         };
     </script>
-    {{ Assets.js("assets/js/index.js") }}
+    <script defer type="module" src="{{ url_for('views.themes', theme='mariokart', path='static/index.js') }}?v={{ range(1, 1000000000) | random }}"></script>
     {% block scripts %}{% endblock %}
 </body>
 </html>
