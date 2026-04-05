@@ -28,7 +28,7 @@ npm install
 npm run build
 ```
 
-This command:
+Build before installing. This command:
 
 - builds the Vite assets into `static/`
 - creates an installable `mariokart-theme/` directory
@@ -36,11 +36,12 @@ This command:
 
 ## Install In CTFd
 
-1. Run `npm install` if you have not installed dependencies yet.
-2. Run `npm run build` from the project root.
-3. Copy the generated `mariokart-theme/` directory, or unzip `mariokart-theme.zip`, into your CTFd `themes/` directory.
-4. Restart CTFd so the new theme is detected.
-5. Select the theme in your CTFd admin configuration if your deployment does not pick it up automatically.
+After the build is complete:
+
+1. Copy the generated `mariokart-theme/` directory into your CTFd `themes/` directory.
+2. Alternatively, unzip `mariokart-theme.zip` and place the extracted `mariokart-theme/` directory into `CTFd/themes/`.
+3. Restart CTFd so the new theme is detected.
+4. Select the theme in your CTFd admin configuration if your deployment does not pick it up automatically.
 
 After installation, the deployed theme directory should look like this inside CTFd:
 
