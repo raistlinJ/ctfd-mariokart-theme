@@ -3,6 +3,7 @@ import { resolve } from 'path';
 import copy from 'rollup-plugin-copy';
 
 export default defineConfig({
+  base: './',
   build: {
     outDir: 'static',
     manifest: true,
