@@ -953,32 +953,63 @@ h4,
 
 .scoreboard-table-wrap {
   overflow: hidden;
-  border: 1px solid rgba(9, 41, 73, 0.1);
+  border: 1px solid rgba(9, 41, 73, 0.18);
   border-radius: 24px;
-  background: rgba(255, 255, 255, 0.82);
+  background: var(--race-paper-strong);
+  box-shadow: 0 18px 36px rgba(6, 24, 51, 0.14);
 }
 
 .scoreboard-table {
   margin-bottom: 0;
   color: var(--race-ink);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(244, 248, 253, 0.96));
 }
 
 .scoreboard-table thead th {
   border-bottom: 0;
-  background: rgba(9, 41, 73, 0.06);
-  color: var(--race-ink);
+  padding: 1rem 1.1rem;
+  background: linear-gradient(180deg, rgba(10, 34, 63, 0.96), rgba(20, 63, 103, 0.94));
+  color: #fffaf3;
   font-family: $font-family-game;
   letter-spacing: 0.05em;
+  text-shadow: 0 1px 0 rgba(4, 13, 28, 0.28);
+}
+
+.scoreboard-table thead th:first-child {
+  width: 88px;
+}
+
+.scoreboard-table tbody tr {
+  transition: background-color 0.18s ease, transform 0.18s ease;
+}
+
+.scoreboard-table tbody tr:nth-child(odd) {
+  background: rgba(255, 255, 255, 0.96);
+}
+
+.scoreboard-table tbody tr:nth-child(even) {
+  background: rgba(226, 238, 250, 0.72);
 }
 
 .scoreboard-table tbody td {
-  border-color: rgba(9, 41, 73, 0.08);
+  padding: 0.95rem 1.1rem;
+  border-color: rgba(9, 41, 73, 0.14);
   color: var(--race-ink);
   vertical-align: middle;
 }
 
+.scoreboard-table tbody td:first-child {
+  font-family: $font-family-game;
+  font-size: 1.05rem;
+}
+
+.scoreboard-table tbody td:last-child {
+  font-weight: 800;
+  color: #0a2745;
+}
+
 .scoreboard-table tbody tr:hover {
-  background: rgba(255, 245, 211, 0.42);
+  background: rgba(255, 232, 148, 0.78);
 }
 
 .scoreboard-link {
@@ -1189,6 +1220,11 @@ h4,
     grid-template-columns: 1fr;
     gap: 0.25rem;
     padding: 0.8rem;
+    margin: 0.5rem;
+    border: 1px solid rgba(9, 41, 73, 0.14);
+    border-radius: 18px;
+    background: rgba(255, 255, 255, 0.96);
+    box-shadow: 0 10px 22px rgba(10, 32, 59, 0.08);
   }
 
   .scoreboard-table tbody td {
