@@ -4,7 +4,7 @@ A Mario Kart inspired theme for CTFd with custom layouts for the homepage, chall
 
 ## Screenshots
 
-![Challenges view](./screenshots/challenges.png)
+![Challenges view](./screenshots/challenges1.png)
 
 ![Challenges modal](./screenshots/challenges2.png)
 
