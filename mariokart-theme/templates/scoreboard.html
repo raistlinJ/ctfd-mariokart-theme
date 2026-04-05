@@ -7,23 +7,50 @@
             <div>
                 <p class="section-kicker"><i class="fas fa-trophy"></i> Championship Standings</p>
                 <h1 class="display-3 fw-bold drift-animation text-luigi mb-3">The Podium</h1>
-                <p class="lead text-muted mb-0">Who is taking the Star Cup today? The podium now sits on brighter surfaces so scores, names, and medals are readable at a glance.</p>
+                <p class="lead text-muted mb-0">Who is taking the Star Cup today? The leaders now race down a live straightaway so you can see who is closest to the finish line at a glance.</p>
             </div>
             <div class="race-chip"><span class="item-box item-box--sm star"></span> Star Cup Finals</div>
         </div>
 
         <div x-data="Scoreboard" x-init="setup()">
-            <div class="row align-items-end justify-content-center podium-stage" style="min-height: 320px;">
-                <template x-for="pod in podium">
-                    <div class="col-4 col-lg-3 text-center podium-item" :class="pod.cssClass" x-show="pod.item">
-                        <template x-if="pod.rank === 1">
-                            <div class="item-box star item-box--lg mb-3 drift-animation"></div>
-                        </template>
-                        <h5 class="fw-bold mb-2" :class="{'h4': pod.rank === 1}" x-text="pod.item ? pod.item.name : ''"></h5>
-                        <div class="rank-box" x-text="pod.rank"></div>
-                        <p class="mt-2" x-text="pod.item ? `${pod.item.score} CC` : ''"></p>
+            <div class="race-progress-board" x-show="trackStandings.length > 0">
+                <div class="race-progress-board__hud">
+                    <div>
+                        <p class="section-kicker mb-2"><i class="fas fa-flag-checkered"></i> Race Order</p>
+                        <h2 class="h4 mb-2">Front Pack Straightaway</h2>
+                        <p class="mb-0 text-muted">Top drivers are placed on the track by score, with the leader pressing against the finish line.</p>
                     </div>
-                </template>
+                    <div class="race-progress-board__legend">
+                        <span><i class="fas fa-flag-checkered"></i> Finish Line</span>
+                        <span><i class="fas fa-bolt"></i> Relative to leader score</span>
+                    </div>
+                </div>
+
+                <div class="race-progress-board__lanes">
+                    <template x-for="entry in trackStandings" :key="entry.account_id">
+                        <article class="track-lane" :class="{'is-leader': entry.pos === 1}">
+                            <div class="track-lane__header">
+                                <div class="track-lane__identity">
+                                    <span class="track-lane__rank" x-text="entry.pos"></span>
+                                    <a :href="entry.account_url" class="track-lane__name" x-text="entry.name"></a>
+                                </div>
+                                <div class="track-lane__stats">
+                                    <span class="track-lane__gap" x-text="entry.pos === 1 ? 'Leader' : `${entry.gap} CC back`"></span>
+                                    <span class="track-lane__score" x-text="`${entry.score} CC`"></span>
+                                </div>
+                            </div>
+
+                            <div class="track-lane__course">
+                                <div class="track-lane__course-fill" :style="`width: ${entry.progress}%`"></div>
+                                <div class="track-lane__finish"></div>
+                                <div class="track-lane__marker" :style="`left: ${entry.progress}%`">
+                                    <span class="track-lane__marker-rank" x-text="entry.pos"></span>
+                                    <span class="item-box item-box--sm" :class="entry.itemClass"></span>
+                                </div>
+                            </div>
+                        </article>
+                    </template>
+                </div>
             </div>
 
             <div class="scoreboard-table-wrap">
@@ -65,25 +92,36 @@
     document.addEventListener('alpine:init', () => {
         window.Alpine.data('Scoreboard', () => ({
             standings: [],
-            podium: [],
+            trackStandings: [],
+            leaderScore: 0,
             async setup() {
                 try {
                     const response = await window.CTFd.fetch('/api/v1/scoreboard');
                     const data = await response.json();
                     this.standings = data.data;
-                    
-                    let first = this.standings[0] || null;
-                    let second = this.standings[1] || null;
-                    let third = this.standings[2] || null;
-                    
-                    this.podium = [
-                        { item: second, cssClass: 'second', rank: 2 },
-                        { item: first, cssClass: 'first', rank: 1 },
-                        { item: third, cssClass: 'third', rank: 3 }
-                    ];
+
+                    this.leaderScore = this.standings[0] ? this.standings[0].score : 0;
+                    this.trackStandings = this.standings.slice(0, 8).map((entry, index) => ({
+                        ...entry,
+                        gap: Math.max(0, this.leaderScore - entry.score),
+                        progress: this.getTrackProgress(entry.score),
+                        itemClass: this.getTrackItem(index)
+                    }));
                 } catch (e) {
                     console.error("Failed to load scoreboard", e);
                 }
+            },
+            getTrackProgress(score) {
+                if (this.leaderScore <= 0) {
+                    return 10;
+                }
+
+                const rawProgress = 10 + (score / this.leaderScore) * 84;
+                return Math.max(10, Math.min(94, Number(rawProgress.toFixed(2))));
+            },
+            getTrackItem(index) {
+                const items = ['star', 'flower', 'mushroom', 'shell', 'flower', 'mushroom', 'star', 'shell'];
+                return items[index % items.length];
             }
         }));
     });
