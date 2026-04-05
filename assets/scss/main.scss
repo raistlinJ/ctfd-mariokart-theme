@@ -1013,8 +1013,9 @@ h4,
   border-radius: 22px;
   background-color: rgba(255, 255, 255, 0.82);
   background-image: url("../img/items.png");
+  background-position: 0 50%;
   background-repeat: no-repeat;
-  background-size: calc(var(--item-size) * 3) var(--item-size);
+  background-size: calc(var(--item-size) * 3) calc(var(--item-size) * 3);
   box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 0.88),
     0 14px 26px rgba(7, 22, 50, 0.14);
@@ -1045,17 +1046,17 @@ h4,
 
 .item-box.mushroom {
   --item-glow: rgba(230, 0, 18, 0.3);
-  background-position: 0 0;
+  background-position: 0 50%;
 }
 
 .item-box.shell {
   --item-glow: rgba(67, 176, 42, 0.3);
-  background-position: calc(var(--item-size) * -1) 0;
+  background-position: calc(var(--item-size) * -1) 50%;
 }
 
 .item-box.star {
   --item-glow: rgba(255, 191, 0, 0.34);
-  background-position: calc(var(--item-size) * -2) 0;
+  background-position: calc(var(--item-size) * -2) 50%;
 }
 
 @keyframes drift {
