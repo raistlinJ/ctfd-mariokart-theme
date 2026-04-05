@@ -892,21 +892,17 @@ h4,
   margin-bottom: 1.5rem;
 }
 
-.race-progress-board {
+.podium-stage {
   position: relative;
   overflow: hidden;
   margin-top: 1.25rem;
   margin-bottom: 1.75rem;
-  padding: 1.5rem;
+  padding: 2rem 1rem 1rem;
   border-radius: 28px;
-  border: 1px solid rgba(9, 41, 73, 0.12);
-  background:
-    radial-gradient(circle at 10% 0%, rgba(255, 219, 92, 0.22), transparent 28%),
-    linear-gradient(180deg, rgba(255, 255, 255, 0.95), rgba(244, 248, 253, 0.92));
-  box-shadow: 0 18px 40px rgba(6, 24, 51, 0.16);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.9), rgba(243, 248, 255, 0.84)), repeating-linear-gradient(90deg, rgba(9, 41, 73, 0.04) 0 32px, transparent 32px 64px);
 }
 
-.race-progress-board::after {
+.podium-stage::after {
   content: "";
   position: absolute;
   inset: auto 0 0 0;
@@ -914,178 +910,45 @@ h4,
   background: $rainbow-road;
 }
 
-.race-progress-board__hud {
+.podium-item {
   display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
-  gap: 1rem;
-  margin-bottom: 1rem;
-}
-
-.race-progress-board__legend {
-  display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: 0.75rem;
-  flex-wrap: wrap;
-  color: var(--race-ink-soft);
-  font-size: 0.88rem;
-}
-
-.race-progress-board__legend span {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.4rem;
-}
-
-.race-progress-board__lanes {
-  display: grid;
-  gap: 0.9rem;
-}
-
-.track-lane {
-  padding: 0.95rem 1rem 1rem;
-  border-radius: 22px;
-  border: 1px solid rgba(9, 41, 73, 0.1);
-  background: rgba(255, 255, 255, 0.78);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.4);
-}
-
-.track-lane.is-leader {
-  border-color: rgba(255, 194, 55, 0.42);
-  background: linear-gradient(180deg, rgba(255, 248, 214, 0.95), rgba(255, 255, 255, 0.86));
-  box-shadow: 0 10px 24px rgba(255, 191, 52, 0.16);
-}
-
-.track-lane__header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 1rem;
-  margin-bottom: 0.75rem;
-}
-
-.track-lane__identity,
-.track-lane__stats {
-  display: flex;
-  align-items: center;
-  gap: 0.7rem;
-}
-
-.track-lane__rank {
-  width: 2rem;
-  height: 2rem;
-  display: grid;
-  place-items: center;
-  border-radius: 50%;
-  background: linear-gradient(180deg, rgba(10, 34, 63, 0.96), rgba(20, 63, 103, 0.94));
-  color: #fffaf3;
-  font-family: $font-family-game;
-  font-size: 0.95rem;
-  flex: 0 0 auto;
-}
-
-.track-lane.is-leader .track-lane__rank {
-  background: linear-gradient(180deg, #ffe37a, #ffbf34);
-  color: #513100;
-}
-
-.track-lane__name {
+  justify-content: flex-end;
+  height: 250px;
   color: var(--race-ink);
-  font-weight: 800;
-  text-decoration: none;
 }
 
-.track-lane__name:hover {
-  color: $mario-red;
+.podium-item h4,
+.podium-item h5,
+.podium-item p {
+  color: var(--race-ink);
 }
 
-.track-lane__gap {
-  color: var(--race-ink-soft);
-  font-size: 0.9rem;
-}
-
-.track-lane__score {
-  display: inline-flex;
-  align-items: center;
-  min-height: 2rem;
-  padding: 0.2rem 0.75rem;
-  border-radius: 999px;
-  background: rgba(10, 34, 63, 0.08);
-  color: #0a2745;
-  font-family: $font-family-game;
-  font-size: 0.85rem;
-}
-
-.track-lane__course {
-  position: relative;
-  height: 66px;
-  overflow: hidden;
-  border-radius: 999px;
-  border: 1px solid rgba(255, 255, 255, 0.18);
-  background:
-    linear-gradient(180deg, rgba(16, 54, 92, 0.96), rgba(8, 29, 54, 0.98)),
-    repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.08) 0 36px, transparent 36px 72px);
-  box-shadow: inset 0 10px 18px rgba(255, 255, 255, 0.08), inset 0 -10px 18px rgba(0, 0, 0, 0.16);
-}
-
-.track-lane__course::before {
-  content: "";
-  position: absolute;
-  inset: calc(50% - 2px) 1rem auto 1rem;
-  height: 4px;
-  background: repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.88) 0 22px, transparent 22px 40px);
-  opacity: 0.78;
-}
-
-.track-lane__course-fill {
-  position: absolute;
-  inset: 0 auto 0 0;
-  border-radius: inherit;
-  background: linear-gradient(90deg, rgba(255, 216, 92, 0.34), rgba(255, 122, 170, 0.18), rgba(77, 194, 255, 0.12));
-}
-
-.track-lane__finish {
-  position: absolute;
-  inset: 0 1rem 0 auto;
-  width: 18px;
-  background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.32), rgba(255, 255, 255, 0.1)),
-    repeating-linear-gradient(180deg, #ffffff 0 8px, #1d2330 8px 16px),
-    repeating-linear-gradient(90deg, #ffffff 0 9px, #1d2330 9px 18px);
-  background-blend-mode: screen, normal, normal;
-  box-shadow: -6px 0 14px rgba(255, 255, 255, 0.18);
-}
-
-.track-lane__marker {
-  position: absolute;
-  top: 50%;
-  z-index: 1;
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  min-width: 4.25rem;
-  padding: 0.28rem 0.65rem 0.28rem 0.3rem;
-  border-radius: 999px;
-  background: rgba(255, 250, 243, 0.98);
-  border: 1px solid rgba(9, 41, 73, 0.16);
-  box-shadow: 0 10px 20px rgba(5, 20, 44, 0.2);
-  transform: translate(-50%, -50%);
-}
-
-.track-lane__marker-rank {
-  width: 1.75rem;
-  height: 1.75rem;
+.podium-item .rank-box {
+  width: 120px;
   display: grid;
-  place-items: center;
-  border-radius: 50%;
-  background: var(--race-ink);
-  color: #fffaf3;
+  align-items: center;
+  justify-content: center;
+  border-radius: 24px 24px 0 0;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.35);
   font-family: $font-family-game;
-  font-size: 0.85rem;
+  font-size: 2.2rem;
 }
 
-.track-lane.is-leader .track-lane__marker-rank {
-  background: $mario-red;
+.podium-item.first .rank-box {
+  height: 138px;
+  background: linear-gradient(180deg, #ffe37a, #ffbf34);
+}
+
+.podium-item.second .rank-box {
+  height: 108px;
+  background: linear-gradient(180deg, #eff5ff, #cfd7e8);
+}
+
+.podium-item.third .rank-box {
+  height: 82px;
+  background: linear-gradient(180deg, #ffd8b6, #d98951);
 }
 
 .scoreboard-table-wrap {
@@ -1356,42 +1219,8 @@ h4,
     justify-self: end;
   }
 
-  .race-progress-board {
-    padding: 1rem;
-  }
-
-  .race-progress-board__hud {
-    align-items: flex-start;
-    flex-direction: column;
-  }
-
-  .track-lane {
-    padding: 0.85rem;
-  }
-
-  .track-lane__header {
-    align-items: flex-start;
-    flex-direction: column;
-    gap: 0.55rem;
-  }
-
-  .track-lane__stats {
-    justify-content: space-between;
-    width: 100%;
-  }
-
-  .track-lane__course {
-    height: 58px;
-  }
-
-  .track-lane__finish {
-    right: 0.75rem;
-    width: 14px;
-  }
-
-  .track-lane__marker {
-    min-width: 0;
-    padding-right: 0.45rem;
+  .podium-item .rank-box {
+    width: 96px;
   }
 
   .scoreboard-table thead {
