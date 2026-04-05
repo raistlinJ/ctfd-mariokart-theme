@@ -22,23 +22,11 @@ A Mario Kart inspired theme for CTFd with custom layouts for the homepage, chall
 npm install
 ```
 
-## Build The Theme
-
-```bash
-npm run build
-```
-
-Build before installing. This command:
-
-- builds the Vite assets into `static/`
-- creates an installable `mariokart-theme/` directory
-- generates `mariokart-theme.zip`
-
 ## Install In CTFd
 
-After the build is complete:
+Copy the packaged `mariokart-theme/` directory into your CTFd `themes/` directory.
 
-1. Copy the generated `mariokart-theme/` directory into your CTFd `themes/` directory.
+1. Copy `mariokart-theme/` into `CTFd/themes/`.
 2. Alternatively, unzip `mariokart-theme.zip` and place the extracted `mariokart-theme/` directory into `CTFd/themes/`.
 3. Restart CTFd so the new theme is detected.
 4. Select the theme in your CTFd admin configuration if your deployment does not pick it up automatically.
@@ -54,6 +42,20 @@ CTFd/
       templates/
       theme.json
 ```
+
+    ## Build The Theme (Optional)
+
+    Run this only if you want to rebuild the packaged theme from source.
+
+    ```bash
+    npm run build
+    ```
+
+    This command:
+
+    - builds the Vite assets into `static/`
+    - creates an installable `mariokart-theme/` directory
+    - generates `mariokart-theme.zip`
 
 ## Development
 
