@@ -1059,6 +1059,13 @@ h4,
   background-position: calc(var(--item-size) * -2) 50%;
 }
 
+.item-box.flower {
+  --item-glow: rgba(255, 124, 168, 0.42);
+  background-image: url("../img/flower.svg");
+  background-position: center;
+  background-size: calc(var(--item-size) * 0.8) calc(var(--item-size) * 0.8);
+}
+
 @keyframes drift {
   0% {
     transform: rotate(0deg);

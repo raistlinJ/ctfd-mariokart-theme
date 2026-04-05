@@ -6,6 +6,10 @@
     "file": "bg.png",
     "src": "assets/img/bg.png"
   },
+  "assets/img/flower.svg": {
+    "file": "flower.svg",
+    "src": "assets/img/flower.svg"
+  },
   "assets/img/items.png": {
     "file": "items.png",
     "src": "assets/img/items.png"

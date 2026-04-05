@@ -7,9 +7,9 @@
             <div>
                 <p class="section-kicker"><i class="fas fa-road"></i> Cup Select</p>
                 <h1 class="display-3 fw-bold drift-animation text-mario mb-3">Grand Prix Tracks</h1>
-                <p class="lead text-muted mb-0">Every challenge category now rolls up into its own cup. Pick a cup and race through its track list like a Grand Prix bracket.</p>
+                <p class="lead text-muted mb-0">Every challenge category keeps its original name while getting its own Grand Prix lane styling.</p>
             </div>
-            <div class="race-chip"><span class="item-box item-box--sm shell"></span> Category lanes become cups</div>
+            <div class="race-chip"><span class="item-box item-box--sm flower"></span> Category lanes become cups</div>
         </div>
 
         <div x-data="ChallengeBoard" x-init="setup()">
@@ -17,7 +17,7 @@
 
             <div class="cup-selector-grid mb-4">
                 <button class="cup-selector" :class="{'is-active': selectedCategory === 'All'}" @click="selectedCategory = 'All'">
-                    <span class="cup-selector__eyebrow">All Cups</span>
+                    <span class="cup-selector__eyebrow">All Categories</span>
                     <span class="cup-selector__title">Grand Prix</span>
                     <span class="cup-selector__meta">
                         <span><i class="fas fa-layer-group"></i> All categories</span>
@@ -110,7 +110,6 @@
     document.addEventListener('alpine:init', () => {
         const cupThemes = [
             {
-                cup: 'Mushroom Cup',
                 accent: '#ff5b43',
                 soft: '#ffe1d8',
                 item: 'mushroom',
@@ -118,15 +117,13 @@
                 description: 'Quick opening laps with approachable corners and plenty of room to accelerate.'
             },
             {
-                cup: 'Flower Cup',
                 accent: '#ff7ca8',
                 soft: '#ffe4ef',
-                item: 'shell',
+                item: 'flower',
                 badge: 'Technical Bloom',
-                description: 'Tighter lines, sharper turns, and more shell-dodging between checkpoints.'
+                description: 'Tighter lines, sharper turns, and more floral precision between checkpoints.'
             },
             {
-                cup: 'Star Cup',
                 accent: '#1fa7ff',
                 soft: '#dff2ff',
                 item: 'star',
@@ -134,14 +131,115 @@
                 description: 'High-speed tracks for the teams climbing the leaderboard in the late race.'
             },
             {
-                cup: 'Special Cup',
                 accent: '#6f61ff',
                 soft: '#e3e0ff',
                 item: 'star',
                 badge: 'Final Lap',
                 description: 'Chaos-mode circuits with the toughest hazards and the biggest point swings.'
+            },
+            {
+                accent: '#43b02a',
+                soft: '#e2f7d8',
+                item: 'shell',
+                badge: 'Defensive Lines',
+                description: 'Measured tracks built around careful spacing, trap avoidance, and steady momentum.'
+            },
+            {
+                accent: '#ffcb33',
+                soft: '#fff4cc',
+                item: 'mushroom',
+                badge: 'Shortcut Charge',
+                description: 'Fast lanes and risky shortcuts reward the teams willing to cut tighter corners.'
+            },
+            {
+                accent: '#78c96b',
+                soft: '#e8f8e2',
+                item: 'flower',
+                badge: 'Forest Drift',
+                description: 'Longer technical sections put precision, patience, and route discipline first.'
+            },
+            {
+                accent: '#2c9fff',
+                soft: '#dff1ff',
+                item: 'star',
+                badge: 'Storm Pace',
+                description: 'High-voltage circuits where the leaderboard can shift quickly in a single lap.'
+            },
+            {
+                accent: '#ff9a5c',
+                soft: '#ffe9dd',
+                item: 'mushroom',
+                badge: 'Launch Start',
+                description: 'Balanced tracks with room to recover, re-route, and keep the race competitive.'
+            },
+            {
+                accent: '#2bc6a4',
+                soft: '#ddfaf2',
+                item: 'flower',
+                badge: 'Town Tour',
+                description: 'Mixed-terrain circuits that reward flexible play and smart transitions.'
+            },
+            {
+                accent: '#8668ff',
+                soft: '#ebe5ff',
+                item: 'star',
+                badge: 'Final Chime',
+                description: 'Late-event cups tuned for teams trying to close out the Grand Prix in style.'
+            },
+            {
+                accent: '#507dff',
+                soft: '#e4ebff',
+                item: 'star',
+                badge: 'Night Run',
+                description: 'Extended circuits with cooler tones, longer arcs, and more deliberate pacing.'
             }
         ];
+
+        const fallbackThemes = [
+            {
+                accent: '#ff6f61',
+                soft: '#ffe5e1',
+                item: 'mushroom',
+                badge: 'Wildcard Heat'
+            },
+            {
+                accent: '#ff8fcb',
+                soft: '#ffe8f6',
+                item: 'flower',
+                badge: 'Wildcard Bloom'
+            },
+            {
+                accent: '#49b1ff',
+                soft: '#e3f4ff',
+                item: 'star',
+                badge: 'Wildcard Sprint'
+            },
+            {
+                accent: '#57c96e',
+                soft: '#e4f9e8',
+                item: 'shell',
+                badge: 'Wildcard Guard'
+            }
+        ];
+
+        function getCupTheme(index, category) {
+            if (cupThemes[index]) {
+                return {
+                    cup: category,
+                    ...cupThemes[index]
+                };
+            }
+
+            const fallback = fallbackThemes[(index - cupThemes.length) % fallbackThemes.length];
+            return {
+                cup: category,
+                accent: fallback.accent,
+                soft: fallback.soft,
+                item: fallback.item,
+                badge: fallback.badge,
+                description: `${category} keeps its original category name while getting a generated lane style on the Grand Prix board.`
+            };
+        }
 
         window.Alpine.data('ChallengeBoard', () => ({
             challenges: [],
@@ -156,7 +254,7 @@
                     if (data && data.success && Array.isArray(data.data)) {
                         const uniqueCategories = [...new Set(data.data.map(challenge => challenge.category))].sort();
                         this.categories = uniqueCategories.map((category, index) => {
-                            const theme = cupThemes[index % cupThemes.length];
+                            const theme = getCupTheme(index, category);
                             return {
                                 category,
                                 ...theme
@@ -171,7 +269,7 @@
                         const trackCounts = {};
 
                         this.challenges = data.data.map(challenge => {
-                            const cup = this.categoryLookup[challenge.category] || cupThemes[0];
+                            const cup = this.categoryLookup[challenge.category] || getCupTheme(0, challenge.category);
                             let difficulty = 'easy';
                             let difficultyLabel = '50cc';
 
@@ -225,7 +323,7 @@
             },
             getChallengeIcon(challenge) {
                 if (challenge.difficulty === 'easy') return 'mushroom';
-                if (challenge.difficulty === 'medium') return 'shell';
+                if (challenge.difficulty === 'medium') return 'flower';
                 return 'star';
             },
             async openChallenge(challenge) {

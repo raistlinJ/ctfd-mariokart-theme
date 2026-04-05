@@ -19,6 +19,13 @@
             </button>
             <div class="collapse navbar-collapse" id="navbar">
                 <ul class="navbar-nav me-auto">
+                    {% for page in Plugins.user_menu_pages %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ page.route }}" {% if page.link_target %}target="{{ page.link_target }}"{% endif %}>
+                                {{ page.title }}
+                            </a>
+                        </li>
+                    {% endfor %}
                     <li class="nav-item">
                         <a class="nav-link" href="{{ url_for('challenges.listing') }}">Tracks (Challenges)</a>
                     </li>
@@ -51,13 +58,13 @@
         <div class="race-marquee__lane">
             <span class="race-marquee__brand"><i class="fas fa-flag-checkered"></i> Mario Kart Grand Prix</span>
             <span class="race-marquee__pill"><span class="item-box item-box--sm mushroom"></span> Mushroom Cup</span>
-            <span class="race-marquee__pill"><span class="item-box item-box--sm shell"></span> Flower Cup</span>
+            <span class="race-marquee__pill"><span class="item-box item-box--sm flower"></span> Flower Cup</span>
             <span class="race-marquee__pill"><span class="item-box item-box--sm star"></span> Star Cup</span>
             <span class="race-marquee__pill"><i class="fas fa-road"></i> Rainbow Road Rally</span>
             <span class="race-marquee__pill"><i class="fas fa-trophy"></i> Special Cup Finals</span>
             <span class="race-marquee__brand"><i class="fas fa-flag-checkered"></i> Mario Kart Grand Prix</span>
             <span class="race-marquee__pill"><span class="item-box item-box--sm mushroom"></span> Mushroom Cup</span>
-            <span class="race-marquee__pill"><span class="item-box item-box--sm shell"></span> Flower Cup</span>
+            <span class="race-marquee__pill"><span class="item-box item-box--sm flower"></span> Flower Cup</span>
             <span class="race-marquee__pill"><span class="item-box item-box--sm star"></span> Star Cup</span>
             <span class="race-marquee__pill"><i class="fas fa-road"></i> Rainbow Road Rally</span>
             <span class="race-marquee__pill"><i class="fas fa-trophy"></i> Special Cup Finals</span>
@@ -81,9 +88,9 @@
                         <small>Launch into the opening lap.</small>
                     </article>
                     <article class="theme-showcase__item">
-                        <span class="item-box item-box--xl shell"></span>
-                        <strong>Green Shell</strong>
-                        <small>Technical corners and sharper lines.</small>
+                        <span class="item-box item-box--xl flower"></span>
+                        <strong>Fire Flower</strong>
+                        <small>Technical corners and petal-powered precision.</small>
                     </article>
                     <article class="theme-showcase__item">
                         <span class="item-box item-box--xl star"></span>
@@ -97,15 +104,10 @@
 
     <main id="main" class="site-main">
         <div class="page-decor" aria-hidden="true">
-            <div class="page-decor__cluster page-decor__cluster--left">
-                <span class="item-box item-box--lg mushroom float-item"></span>
-                <span class="item-box item-box--lg shell float-item"></span>
-                <span class="item-box item-box--lg star float-item"></span>
-            </div>
             <div class="page-decor__cluster page-decor__cluster--right">
                 <span class="item-box item-box--lg star float-item"></span>
                 <span class="item-box item-box--lg mushroom float-item"></span>
-                <span class="item-box item-box--lg shell float-item"></span>
+                <span class="item-box item-box--lg flower float-item"></span>
             </div>
         </div>
         {% block content %}
