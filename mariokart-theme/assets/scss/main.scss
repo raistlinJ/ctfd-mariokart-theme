@@ -356,13 +356,14 @@ h4,
 }
 
 .theme-showcase__rail {
-  display: grid;
-  grid-template-columns: minmax(0, 1.45fr) minmax(320px, 1fr);
-  gap: 1rem;
+  display: flex;
+  justify-content: center;
   align-items: stretch;
 }
 
 .theme-showcase__poster {
+  width: 100%;
+  max-width: 900px;
   position: relative;
   overflow: hidden;
   min-height: 230px;

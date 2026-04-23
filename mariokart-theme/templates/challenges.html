@@ -7,9 +7,7 @@
             <div>
                 <p class="section-kicker"><i class="fas fa-road"></i> Cup Select</p>
                 <h1 class="display-3 fw-bold drift-animation text-mario mb-3">Grand Prix Tracks</h1>
-                <p class="lead text-muted mb-0">Every challenge category keeps its original name while getting its own Grand Prix lane styling.</p>
             </div>
-            <div class="race-chip"><span class="item-box item-box--sm flower"></span> Category lanes become cups</div>
         </div>
 
         <div x-data="ChallengeBoard" x-init="setup()">
@@ -114,7 +112,7 @@
                 soft: '#ffe1d8',
                 item: 'mushroom',
                 badge: 'Warm-up Circuit',
-                description: 'Quick opening laps with approachable corners and plenty of room to accelerate.'
+                description: ''
             },
             {
                 accent: '#ff7ca8',
@@ -222,22 +220,30 @@
             }
         ];
 
+        const standardCups = [
+            'Mushroom Cup', 'Flower Cup', 'Star Cup', 'Special Cup',
+            'Shell Cup', 'Banana Cup', 'Leaf Cup', 'Lightning Cup',
+            'Boomerang Cup', 'Feather Cup', 'Cherry Cup', 'Acorn Cup',
+            'Moon Cup', 'Fruit Cup', 'Bell Cup', 'Propeller Cup'
+        ];
+
         function getCupTheme(index, category) {
+            const cupName = standardCups[index % standardCups.length];
             if (cupThemes[index]) {
                 return {
-                    cup: category,
+                    cup: cupName,
                     ...cupThemes[index]
                 };
             }
 
             const fallback = fallbackThemes[(index - cupThemes.length) % fallbackThemes.length];
             return {
-                cup: category,
+                cup: cupName,
                 accent: fallback.accent,
                 soft: fallback.soft,
                 item: fallback.item,
                 badge: fallback.badge,
-                description: `${category} keeps its original category name while getting a generated lane style on the Grand Prix board.`
+                description: ''
             };
         }
 
@@ -313,7 +319,7 @@
             },
             getTrackBlurb(challenge, difficulty) {
                 const blurbs = {
-                    easy: 'Warm up the tires and bank a clean early-race solve.',
+                    easy: '',
                     medium: 'A tighter corner with stronger defenses around the apex.',
                     hard: 'A late-lap technical section where every move has to stick.',
                     expert: 'Mirror mode chaos with the highest stakes on the board.'
